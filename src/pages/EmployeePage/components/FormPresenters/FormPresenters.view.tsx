@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "../../../../components/Button/Button";
-import { FormWrapper } from "./FormPresenters.styles";
+import { FormWrapper, ErrorWrapper } from "./FormPresenters.styles";
 import { PresenterType, Role } from "../../../../utils/types";
 import { Formik, Form, ErrorMessage } from "formik";
 import {
@@ -116,10 +116,16 @@ const FormPresenters = ({
               address: "Address required",
             };
           }
+          const regex = /^\d{9}$/;
           if (!values.phone) {
             errors = {
               ...errors,
               phone: "Phone required",
+            };
+          } else if (!regex.test(String(values.phone))) {
+            errors = {
+              ...errors,
+              phone: "The phone must be numeric and of length 9",
             };
           }
           return errors;
@@ -148,11 +154,9 @@ const FormPresenters = ({
                   onBlur={handleBlur}
                 />
               </FormControl>
-              <ErrorMessage
-                name="name"
-                component="div"
-                // style={{ color: "red" }}
-              />
+              <ErrorWrapper>
+                <ErrorMessage name="name" component="div" />
+              </ErrorWrapper>
             </div>
 
             <div>
@@ -167,11 +171,9 @@ const FormPresenters = ({
                   onBlur={handleBlur}
                 />
               </FormControl>
-              <ErrorMessage
-                name="address"
-                component="div"
-                // style={{ color: "red" }}
-              />
+              <ErrorWrapper>
+                <ErrorMessage name="address" component="div" />
+              </ErrorWrapper>
             </div>
 
             <div>
@@ -186,11 +188,9 @@ const FormPresenters = ({
                   onBlur={handleBlur}
                 />
               </FormControl>
-              <ErrorMessage
-                name="phone"
-                component="div"
-                // style={{ color: "red" }}
-              />
+              <ErrorWrapper>
+                <ErrorMessage name="phone" component="div" />
+              </ErrorWrapper>
             </div>
 
             <FormControlLabel
