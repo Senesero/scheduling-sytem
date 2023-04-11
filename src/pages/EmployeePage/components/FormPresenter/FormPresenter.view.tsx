@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "../../../../components/Button/Button";
-import { FormWrapper, ErrorWrapper } from "./FormPresenters.styles";
-import { PresenterType, Role } from "../../../../utils/types";
+import { FormWrapper, ErrorWrapper } from "./FormPresenter.styles";
+import { PresenterType, RoleType, Shift } from "../../../../utils/types";
 import { Formik, Form, ErrorMessage } from "formik";
 import {
   TextField,
@@ -9,6 +9,10 @@ import {
   FormControl,
   FormControlLabel,
   CircularProgress,
+  InputLabel,
+  Select,
+  MenuItem,
+  CheckboxProps,
 } from "@mui/material";
 import {
   addPresenter,
@@ -17,19 +21,20 @@ import {
 } from "../../../../utils/api";
 import { timeDelay } from "../../../../utils/constants";
 
-interface FormPresentersProps {
+interface FormPresenterProps {
   modifyValues?: PresenterType;
-  handleCloseFormPresentersModal: Function;
+  handleCloseFormPresenterModal: Function;
   setUpdatePresenters: Function;
 }
 
-const FormPresenters = ({
+const FormPresenter = ({
   modifyValues,
-  handleCloseFormPresentersModal,
+  handleCloseFormPresenterModal,
   setUpdatePresenters,
-}: FormPresentersProps) => {
-  const [submitLoading, setSubmitLoading] = useState(false);
-  const [newPresenterId, setNewPresenterId] = useState(0);
+}: FormPresenterProps) => {
+  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
+  const [newPresenterId, setNewPresenterId] = useState<number>(0);
+  const options = Object.values(Shift);
 
   useEffect(() => {
     const getPresentersData = async () => {
@@ -42,15 +47,23 @@ const FormPresenters = ({
     getPresentersData();
   }, []);
 
-  const [checked, setChecked] = useState(
-    modifyValues ? modifyValues?.available : true
+  const [checkedAvailable, setCheckedAvailable] = useState<boolean>(
+    modifyValues?.available || true
   );
 
-  const handleCheckbox = (event: any) => {
-    setChecked(event.target.checked);
+  const handleCheckboxAvailable: CheckboxProps["onChange"] = (event) => {
+    setCheckedAvailable(event.target.checked);
   };
 
-  const submitUploadPresenter = async (values: any) => {
+  const [checkedAskFreeDay, setCheckedAskFreeDay] = useState<boolean>(
+    modifyValues?.askedFreeDay || false
+  );
+
+  const handleCheckboxAskFreeDay: CheckboxProps["onChange"] = (event) => {
+    setCheckedAskFreeDay(event.target.checked);
+  };
+
+  const submitUploadPresenter = async (values: PresenterType) => {
     setSubmitLoading(true);
     // Since we are using a mock api that takes very little time
     // We configure a setTimeout to be able to simulate the call
@@ -59,18 +72,20 @@ const FormPresenters = ({
       addPresenter({
         id: newPresenterId,
         name: values.name,
-        role: Role.Employee,
-        available: checked,
+        role: RoleType.Employee,
+        available: checkedAvailable,
         address: values.address,
         phone: values.phone,
+        priority: values.priority,
+        askedFreeDay: checkedAskFreeDay,
       });
       setSubmitLoading(false);
-      handleCloseFormPresentersModal();
+      handleCloseFormPresenterModal();
       setUpdatePresenters(true);
     }, timeDelay);
   };
 
-  const submitModifyPresenter = async (values: any) => {
+  const submitModifyPresenter = async (values: PresenterType) => {
     setSubmitLoading(true);
     // Since we are using a mock api that takes very little time
     // We configure a setTimeout to be able to simulate the call
@@ -79,23 +94,28 @@ const FormPresenters = ({
       editPresenter({
         id: modifyValues?.id || newPresenterId,
         name: values.name,
-        role: Role.Employee,
-        available: checked,
+        role: RoleType.Employee,
+        available: checkedAvailable,
         address: values.address,
         phone: values.phone,
+        priority: values.priority,
+        askedFreeDay: checkedAskFreeDay,
       });
       setSubmitLoading(false);
-      handleCloseFormPresentersModal();
+      handleCloseFormPresenterModal();
       setUpdatePresenters(true);
     }, timeDelay);
   };
 
-  const initialValues = modifyValues || {
+  const initialValues: PresenterType = modifyValues || {
+    id: 0,
     name: "",
-    role: Role.Employee,
+    role: RoleType.Employee,
     available: true,
     address: "",
     phone: "",
+    priority: Shift.Any,
+    askedFreeDay: false,
   };
 
   return (
@@ -128,6 +148,12 @@ const FormPresenters = ({
               phone: "The phone must be numeric and of length 9",
             };
           }
+          if (!values.priority) {
+            errors = {
+              ...errors,
+              priority: "Priority required",
+            };
+          }
           return errors;
         }}
         onSubmit={async (values, { setSubmitting }) => {
@@ -158,7 +184,6 @@ const FormPresenters = ({
                 <ErrorMessage name="name" component="div" />
               </ErrorWrapper>
             </div>
-
             <div>
               <FormControl fullWidth sx={{ m: 1 }}>
                 <TextField
@@ -175,7 +200,6 @@ const FormPresenters = ({
                 <ErrorMessage name="address" component="div" />
               </ErrorWrapper>
             </div>
-
             <div>
               <FormControl fullWidth sx={{ m: 1 }}>
                 <TextField
@@ -192,17 +216,52 @@ const FormPresenters = ({
                 <ErrorMessage name="phone" component="div" />
               </ErrorWrapper>
             </div>
-
+            <div>
+              <FormControl fullWidth sx={{ m: 1 }}>
+                <InputLabel id="collection-select">Priority</InputLabel>
+                <Select
+                  labelId="collection-select"
+                  id="priority"
+                  value={values.priority}
+                  label="Priority"
+                  onChange={handleChange}
+                  name="priority"
+                >
+                  {options.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <ErrorWrapper>
+                <ErrorMessage name="priority" component="div" />
+              </ErrorWrapper>
+            </div>
             <FormControlLabel
-              control={<Checkbox checked={checked} onChange={handleCheckbox} />}
+              control={
+                <Checkbox
+                  checked={checkedAvailable}
+                  onChange={handleCheckboxAvailable}
+                />
+              }
               label="Available"
               sx={{ m: 1 }}
             />
-
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={checkedAskFreeDay}
+                  onChange={handleCheckboxAskFreeDay}
+                />
+              }
+              label="Ask Free Day"
+              sx={{ m: 1 }}
+            />
             <div>
               <Button
                 type="button"
-                onClick={() => handleCloseFormPresentersModal()}
+                onClick={() => handleCloseFormPresenterModal()}
               >
                 Cancel
               </Button>
@@ -223,4 +282,4 @@ const FormPresenters = ({
   );
 };
 
-export default FormPresenters;
+export default FormPresenter;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "../../../../components/Button/Button";
 import Modal from "@mui/material/Modal";
-import FormPresenters from "../FormPresenters/FormPresenters.view";
+import FormPresenter from "../FormPresenter/FormPresenter.view";
 import { Box } from "@mui/material";
 import { PresenterType } from "../../../../utils/types";
 
@@ -12,7 +12,7 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: "80%",
   height: "80%",
-  overflow: "auto", // Para que muestre scroll vertical
+  overflow: "auto",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -20,19 +20,19 @@ const style = {
   textAlign: "center",
 };
 
-interface FormPresentersModalProps {
+interface FormPresenterModalProps {
   modifyValues?: PresenterType;
   setUpdatePresenters: Function;
 }
 
-const FormPresentersModal = ({
+const FormPresenterModal = ({
   modifyValues,
   setUpdatePresenters,
-}: FormPresentersModalProps) => {
-  const [openFormPresentersModal, setOpenFormPresentersModal] = useState(false);
-  const handleOpenFormPresentersModal = () => setOpenFormPresentersModal(true);
-  const handleCloseFormPresentersModal = () =>
-    setOpenFormPresentersModal(false);
+}: FormPresenterModalProps) => {
+  const [openFormPresenterModal, setOpenFormPresenterModal] =
+    useState<boolean>(false);
+  const handleOpenFormPresenterModal = () => setOpenFormPresenterModal(true);
+  const handleCloseFormPresenterModal = () => setOpenFormPresenterModal(false);
 
   const buttonName = modifyValues?.name
     ? "Modify presenter"
@@ -40,17 +40,17 @@ const FormPresentersModal = ({
 
   return (
     <div>
-      <Button primary onClick={handleOpenFormPresentersModal}>
+      <Button primary onClick={handleOpenFormPresenterModal}>
         {buttonName}
       </Button>
       <Modal
-        open={openFormPresentersModal}
-        onClose={handleCloseFormPresentersModal}
+        open={openFormPresenterModal}
+        onClose={handleCloseFormPresenterModal}
       >
         <Box sx={style}>
-          <FormPresenters
+          <FormPresenter
             modifyValues={modifyValues}
-            handleCloseFormPresentersModal={handleCloseFormPresentersModal}
+            handleCloseFormPresenterModal={handleCloseFormPresenterModal}
             setUpdatePresenters={setUpdatePresenters}
           />
         </Box>
@@ -59,4 +59,4 @@ const FormPresentersModal = ({
   );
 };
 
-export default FormPresentersModal;
+export default FormPresenterModal;

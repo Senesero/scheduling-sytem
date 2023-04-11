@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-export const PresenterWrapper = styled.div`
+export const TableWrapper = styled.div`
   width: 250px;
   margin: 10px;
   border: 1px dashed black;
 `;
 
-export const Name = styled.p`
+export const Game = styled.p`
   margin: 0px;
   font-size: 40px;
   font-weight: bold;

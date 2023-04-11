@@ -2,16 +2,18 @@
   "employees": [
     {
       "id": 1,
-      "name": "Presenter 1",
+      "name": "Boss 1",
       "role": "Boss"
     },
     {
       "id": 2,
-      "name": "Presenter 22",
+      "name": "Presenter 2",
       "role": "Employee",
       "available": true,
       "address": "Address 2...",
-      "phone": "622222222"
+      "phone": "622222222",
+      "priority": "Morning",
+      "askedFreeDay": false
     },
     {
       "id": 3,
@@ -19,15 +21,19 @@
       "role": "Employee",
       "available": true,
       "address": "Address 3...",
-      "phone": "633333333"
+      "phone": "633333333",
+      "priority": "Night",
+      "askedFreeDay": false
     },
     {
       "id": 4,
       "name": "Presenter 4",
       "role": "Employee",
-      "available": false,
+      "available": true,
       "address": "Address 4...",
-      "phone": "644444444"
+      "phone": "644444444",
+      "priority": "Any",
+      "askedFreeDay": false
     },
     {
       "id": 5,
@@ -35,7 +41,9 @@
       "role": "Employee",
       "available": true,
       "address": "Address 5...",
-      "phone": "655555555"
+      "phone": "655555555",
+      "priority": "Afternoon",
+      "askedFreeDay": false
     },
     {
       "id": 6,
@@ -43,15 +51,59 @@
       "role": "Employee",
       "available": true,
       "address": "Adress 6",
-      "phone": "666666666"
+      "phone": "666666666",
+      "priority": "Afternoon",
+      "askedFreeDay": false
     },
     {
       "id": 7,
-      "name": "Name 7",
+      "name": "Presenter 7",
       "role": "Employee",
       "available": true,
       "address": "Addres 7",
-      "phone": "677777777"
+      "phone": "677777777",
+      "priority": "Any",
+      "askedFreeDay": true
+    },
+    {
+      "id": 8,
+      "name": "Presenter 8",
+      "role": "Employee",
+      "available": true,
+      "address": "Addres 8",
+      "phone": "688888888",
+      "priority": "Any",
+      "askedFreeDay": true
+    },
+    {
+      "id": 9,
+      "name": "Presenter 9",
+      "role": "Employee",
+      "available": true,
+      "address": "Adress 9",
+      "phone": "699999999",
+      "priority": "Night",
+      "askedFreeDay": false
+    },
+    {
+      "id": 10,
+      "name": "Presenter 10",
+      "role": "Employee",
+      "available": true,
+      "address": "Adress 10",
+      "phone": "678678678",
+      "priority": "Any",
+      "askedFreeDay": false
+    },
+    {
+      "id": 11,
+      "name": "Presenter 11",
+      "role": "Employee",
+      "available": true,
+      "address": "Adress 11",
+      "phone": "665874526",
+      "priority": "Any",
+      "askedFreeDay": false
     }
   ],
   "tables": [
@@ -59,51 +111,95 @@
       "id": 1,
       "game": "Game 1",
       "room": 1,
-      "numberOfPlayers": 10
+      "numberOfPlayers": 10,
+      "available": true,
+      "working": true
     },
     {
       "id": 2,
       "game": "Game 2",
       "room": 1,
-      "numberOfPlayers": 5
+      "numberOfPlayers": 5,
+      "available": true,
+      "working": true
     },
     {
       "id": 3,
       "game": "Game 3",
       "room": 1,
-      "numberOfPlayers": 5
+      "available": true,
+      "numberOfPlayers": 5,
+      "working": false
     },
     {
       "id": 4,
       "game": "Game 4",
-      "room": 2,
-      "numberOfPlayers": 7
+      "room": 1,
+      "available": false,
+      "numberOfPlayers": 10,
+      "working": false
     }
   ],
-  "dailySchedule": [
-    {
-      "id": 1,
-      "presenter": 1,
-      "shift": "Morning",
-      "turn": 1
-    },
-    {
-      "id": 2,
-      "name": 2,
-      "shift": "Afternoon",
-      "turn": 2
-    },
-    {
-      "id": 3,
-      "name": 3,
-      "shift": "Morning",
-      "turn": 3
-    },
-    {
-      "id": 4,
-      "name": 4,
-      "shift": "Night",
-      "turn": 4
-    }
-  ]
+  "dailySchedule": {
+    "shiftDuration": "60",
+    "shiftMorning": [
+      {
+        "id": 1,
+        "presenter": 2,
+        "turn": 0
+      },
+      {
+        "id": 2,
+        "presenter": 4,
+        "turn": 1
+      },
+      {
+        "id": 3,
+        "presenter": 7,
+        "turn": 2
+      }
+    ],
+    "shiftAfternoon": [
+      {
+        "id": 1,
+        "presenter": 5,
+        "turn": 0
+      },
+      {
+        "id": 2,
+        "presenter": 6,
+        "turn": 1
+      },
+      {
+        "id": 3,
+        "presenter": 8,
+        "turn": 2
+      }
+    ],
+    "shifNight": [
+      {
+        "id": 1,
+        "presenter": 3,
+        "turn": 0
+      },
+      {
+        "id": 2,
+        "presenter": 9,
+        "turn": 1
+      },
+      {
+        "id": 3,
+        "presenter": 10,
+        "turn": 2
+      },
+      {
+        "id": 4,
+        "presenter": 11,
+        "turn": 3
+      }
+    ],
+    "availableTables": [
+      "1"
+    ]
+  }
 }

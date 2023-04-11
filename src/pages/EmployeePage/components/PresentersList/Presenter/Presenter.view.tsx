@@ -1,35 +1,24 @@
 import React, { useState } from "react";
 import { Checkbox, CircularProgress } from "@mui/material";
 import { Button } from "../../../../../components/Button/Button";
-import FormPresentersModal from "../../FormPresentersModal/FormPresentersModal";
-import {
-  PresenterWrapper,
-  NameWrapper,
-  Name,
-  RoleWrapper,
-  Role,
-  AddressWrapper,
-  Address,
-  AvailableWrapper,
-} from "./Presenter.styles";
-import { PresenterType } from "../../../../../utils/types";
+import FormPresentersModal from "../../FormPresenterModal/FormPresenterModal";
+import { PresenterWrapper, Name, Text, CheckWrapper } from "./Presenter.styles";
+import { PresenterType, RoleType } from "../../../../../utils/types";
 import { deletePresenter } from "../../../../../utils/api";
 import { timeDelay } from "../../../../../utils/constants";
 
 interface PresenterProps {
-  isEditing?: boolean;
   presenter: PresenterType;
   setUpdatePresenters: Function;
 }
 
-const Presenter = ({
-  presenter,
-  isEditing,
-  setUpdatePresenters,
-}: PresenterProps) => {
-  const [deleteLoading, setDeleteLoading] = useState(false);
+const Presenter = ({ presenter, setUpdatePresenters }: PresenterProps) => {
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
-  const deleteItem = async (e: any, index: number) => {
+  const deleteItem = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => {
     e.preventDefault();
     setDeleteLoading(true);
     // Since we are using a mock api that takes very little time
@@ -44,35 +33,48 @@ const Presenter = ({
 
   return (
     <PresenterWrapper>
-      <NameWrapper>
+      <div>
         <Name>{presenter.name}</Name>
-      </NameWrapper>
-      <RoleWrapper>
-        <Role>{presenter.role}</Role>
-      </RoleWrapper>
-      <AddressWrapper>
-        <Address>{presenter.address}</Address>
-      </AddressWrapper>
-      <RoleWrapper>
-        <Role>{presenter.phone}</Role>
-      </RoleWrapper>
-      {isEditing && (
-        <AvailableWrapper>
-          <p>Available:</p>
-          <Checkbox
-            disabled
-            checked={presenter.available}
-            inputProps={{ "aria-label": "controlled" }}
-          />
-        </AvailableWrapper>
+      </div>
+      <div>
+        <Text>{`Role: ${presenter.role}`}</Text>
+      </div>
+      <div>
+        <Text>{`Address: ${presenter.address}`}</Text>
+      </div>
+      <div>
+        <Text>{`Phone: ${presenter.phone}`}</Text>
+      </div>
+      {presenter.priority && (
+        <div>
+          <Text>{`Priority: ${presenter.priority}`}</Text>
+        </div>
       )}
-      {isEditing && (
-        <FormPresentersModal
-          modifyValues={presenter}
-          setUpdatePresenters={setUpdatePresenters}
-        />
+      {presenter.role === RoleType.Employee && (
+        <>
+          <CheckWrapper>
+            <p>Available:</p>
+            <Checkbox
+              disabled
+              checked={presenter.available}
+              inputProps={{ "aria-label": "controlled" }}
+            />
+          </CheckWrapper>
+          <CheckWrapper>
+            <p>Ask Free Day:</p>
+            <Checkbox
+              disabled
+              checked={presenter.askedFreeDay}
+              inputProps={{ "aria-label": "controlled" }}
+            />
+          </CheckWrapper>
+        </>
       )}
-      {isEditing && (
+      <FormPresentersModal
+        modifyValues={presenter}
+        setUpdatePresenters={setUpdatePresenters}
+      />
+      {presenter.role === RoleType.Employee && (
         <div>
           <Button onClick={(e) => deleteItem(e, presenter.id)}>
             {deleteLoading ? <CircularProgress size={24} /> : "Delete"}
