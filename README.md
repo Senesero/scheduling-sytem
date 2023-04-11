@@ -21,7 +21,7 @@ You can boost your solution by implementing the following optional challenges:
 - Loading Component Display some sort of loading/skeleton components when loading data.
 - Docker Create a Dockerfile (and an optional docker compose file) and provide instructions on how to build and run the application.
 
-#Run the app
+# Run the app
 
 ### `npm install`
 
@@ -35,11 +35,15 @@ Will start a server. The server data is in the file “db.json”
 
 In another console, execute the "npm start" command to launch the application, which will open at [http://localhost:3000](http://localhost:3000)
 
+### `npm run test`
+
+It will execute the unit tests configured in the application
+
 # Explanation design and solution
 
 For the implemented solution we have 3 main scenarios:
 
-## Employees not logged in
+### `Employees not logged in`
 
 In this scenario, only the "Home" screen is available, in which a form is displayed for the employee to log in.
 All paths show “Page not found” except the root path.
@@ -47,7 +51,7 @@ The form has validations to check if the fields have been filled in, if not, it 
 After entering a correct username and password, it will take us to one of the other two scenarios.
 A button to register an employee has not been enabled. It has been suggested that bosses are added by another method. And to register a presenter, a boss has to register it.
 
-## Presenters
+### `Presenters`
 
 To enter this mode we can enter “Presenter2” in user and password, logging in as presenter.
 When a user has logged in, a "Close session" button appears at the top right, which will cause a logout.
@@ -58,7 +62,7 @@ The presenter has the following screens:
 - Presenters: where the data of the logged-in presenter will be displayed and with a "Modify Presenter" button which, if pressed, takes us to a form to modify the data of the logged-in user.
 - Schedule: Shows the schedule of the day and highlighted in green the shift that has to work.
 
-## Boss
+### `Boss`
 
 To enter this mode we can enter "Boss" in username and password, logging in as boss.
 The boss has all of the options described previously in the presenter plus the following:
@@ -70,11 +74,11 @@ The boss has all of the options described previously in the presenter plus the f
 
 # Limitations and improvements
 
-## Limitations
+## `Limitations`
 
 I find the main limitation in the "Schedule" screen, since the design is fine for few users but if we had many employees it would be a bad distribution of the data and the screen design would have to be rethought.
 
-## Improvements
+## `Improvements`
 
 - The main improvement would be to add Redux. The reason is that "presenters" and "tables" are propagated from the App component to practically all the components of the application. Using the Redux function useSelector in each of the components would save us a lot of propagation of these objects.
 - Add more unit tests, since I haven't had time to configure many.
