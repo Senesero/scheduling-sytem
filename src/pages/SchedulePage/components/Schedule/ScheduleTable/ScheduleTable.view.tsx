@@ -3,13 +3,13 @@ import {
   ScheduleTablePropsWrapper,
   StyledTableCell,
   StyledTableContainer,
-  StyledTableRow,
 } from "./ScheduleTable.styles";
 import {
   Period,
   PresenterType,
   Shift,
   TableType,
+  UserLogin,
 } from "../../../../../utils/types";
 import { Table, TableBody, TableHead, TableRow } from "@mui/material";
 
@@ -20,6 +20,7 @@ interface ScheduleTableProps {
   presenters: PresenterType[];
   tables: TableType[];
   availableTables: string[];
+  userLogin: UserLogin;
 }
 
 const ScheduleTable = ({
@@ -29,6 +30,7 @@ const ScheduleTable = ({
   presenters,
   tables,
   availableTables,
+  userLogin,
 }: ScheduleTableProps) => {
   const periods = (8 * 60) / shiftDuration;
 
@@ -99,6 +101,14 @@ const ScheduleTable = ({
     return presenter?.name || "";
   };
 
+  const getColorRow = (index: number, idPresenter: number) => {
+    if (userLogin?.id === idPresenter) {
+      return "#00ff99";
+    } else {
+      return index % 2 === 0 ? "#BEEFFF" : "#EAF7FF";
+    }
+  };
+
   return (
     <ScheduleTablePropsWrapper>
       <h3>{`${shift} turn`}</h3>
@@ -112,17 +122,17 @@ const ScheduleTable = ({
           </TableHead>
           <TableBody>
             {data.map((item, index) => (
-              <StyledTableRow
+              <TableRow
                 key={index}
                 style={{
-                  backgroundColor: index % 2 === 0 ? "#BEEFFF" : "#EAF7FF",
+                  backgroundColor: getColorRow(index, item.presenter),
                 }}
               >
                 <StyledTableCell>
                   {getPresenterName(item.presenter)}
                 </StyledTableCell>
                 {getBodyColumns(item.turn)}
-              </StyledTableRow>
+              </TableRow>
             ))}
           </TableBody>
         </Table>

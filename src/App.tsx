@@ -1,25 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/HomePage/HomePage";
+import HomePage from "./pages/HomePage/HomePage.view";
 import PresentersPage from "./pages/EmployeePage/PresentersPage.view";
 import TablesPage from "./pages/TablesPage/TablesPage.view";
 import SchedulePage from "./pages/SchedulePage/SchedulePage.view";
 import Menu from "./pages/Menu/Menu";
-import { PresenterType, TableType } from "./utils/types";
+import { PresenterType, RoleType, TableType, UserLogin } from "./utils/types";
 import { getTables, getPresenters } from "./utils/api";
+import { getItem } from "./utils/localStorage";
 
 function App() {
   const [presenters, setPresenters] = useState<PresenterType[]>([]);
   const [updatePresenters, setUpdatePresenters] = useState<boolean>(false);
   const [tables, setTables] = useState<TableType[]>([]);
   const [updateTables, setUpdateTables] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [userLogin, setUserLogin] = useState<UserLogin>(getItem("session"));
+  const [checkLogin, setCheckLogin] = useState<boolean>(false);
+
+  useEffect(() => {
+    const getPresentersData = async () => {
+      const user = getItem("session");
+      setUserLogin(user);
+      setCheckLogin(false);
+    };
+
+    getPresentersData();
+  }, [checkLogin]);
 
   useEffect(() => {
     const getPresentersData = async () => {
       const data = await getPresenters();
       setPresenters(data);
-      setLoading(false);
       setUpdatePresenters(false);
     };
 
@@ -30,7 +41,6 @@ function App() {
     const getTableData = async () => {
       const data = await getTables();
       setTables(data);
-      setLoading(false);
       setUpdateTables(false);
     };
 
@@ -41,27 +51,58 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Menu />}>
-            <Route index element={<HomePage />} />
+          <Route
+            path="/"
+            element={
+              <Menu setCheckLogin={setCheckLogin} userLogin={userLogin} />
+            }
+          >
             <Route
-              path="presenters"
+              index
               element={
-                <PresentersPage
+                <HomePage
+                  userLogin={userLogin}
                   presenters={presenters}
-                  setUpdatePresenters={setUpdatePresenters}
+                  setCheckLogin={setCheckLogin}
                 />
               }
             />
-            <Route
-              path="tables"
-              element={
-                <TablesPage tables={tables} setUpdateTables={setUpdateTables} />
-              }
-            />
-            <Route
-              path="schedule"
-              element={<SchedulePage presenters={presenters} tables={tables} />}
-            />
+
+            {userLogin?.user && (
+              <>
+                <Route
+                  path="presenters"
+                  element={
+                    <PresentersPage
+                      presenters={presenters}
+                      setUpdatePresenters={setUpdatePresenters}
+                      userLogin={userLogin}
+                    />
+                  }
+                />
+                {userLogin?.role === RoleType.Boss && (
+                  <Route
+                    path="tables"
+                    element={
+                      <TablesPage
+                        tables={tables}
+                        setUpdateTables={setUpdateTables}
+                      />
+                    }
+                  />
+                )}
+                <Route
+                  path="schedule"
+                  element={
+                    <SchedulePage
+                      userLogin={userLogin}
+                      presenters={presenters}
+                      tables={tables}
+                    />
+                  }
+                />
+              </>
+            )}
             <Route path="*" element={<div>Page not found</div>} />
           </Route>
         </Routes>

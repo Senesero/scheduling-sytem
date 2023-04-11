@@ -5,16 +5,23 @@ import {
   ScheduleType,
   Shift,
   TableType,
-} from "../../../utils/types";
-import ScheduleTable from "./components/ScheduleTable/ScheduleTable.view";
+  UserLogin,
+} from "../../../../utils/types";
+import ScheduleTable from "./ScheduleTable/ScheduleTable.view";
 
 interface ScheduleProps {
   schedule: ScheduleType;
   presenters: PresenterType[];
   tables: TableType[];
+  userLogin: UserLogin;
 }
 
-const Schedule = ({ schedule, presenters, tables }: ScheduleProps) => {
+const Schedule = ({
+  schedule,
+  presenters,
+  tables,
+  userLogin,
+}: ScheduleProps) => {
   return (
     <ScheduleWrapper>
       <ScheduleTable
@@ -25,6 +32,7 @@ const Schedule = ({ schedule, presenters, tables }: ScheduleProps) => {
         presenters={presenters}
         tables={tables}
         availableTables={schedule.availableTables}
+        userLogin={userLogin}
       />
       <ScheduleTable
         key={Shift.Afternoon}
@@ -34,6 +42,7 @@ const Schedule = ({ schedule, presenters, tables }: ScheduleProps) => {
         presenters={presenters}
         tables={tables}
         availableTables={schedule.availableTables}
+        userLogin={userLogin}
       />
       <ScheduleTable
         key={Shift.Night}
@@ -43,6 +52,7 @@ const Schedule = ({ schedule, presenters, tables }: ScheduleProps) => {
         presenters={presenters}
         tables={tables}
         availableTables={schedule.availableTables}
+        userLogin={userLogin}
       />
     </ScheduleWrapper>
   );

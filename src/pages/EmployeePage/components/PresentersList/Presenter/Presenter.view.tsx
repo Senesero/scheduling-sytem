@@ -3,16 +3,21 @@ import { Checkbox, CircularProgress } from "@mui/material";
 import { Button } from "../../../../../components/Button/Button";
 import FormPresentersModal from "../../FormPresenterModal/FormPresenterModal";
 import { PresenterWrapper, Name, Text, CheckWrapper } from "./Presenter.styles";
-import { PresenterType, RoleType } from "../../../../../utils/types";
+import { PresenterType, RoleType, UserLogin } from "../../../../../utils/types";
 import { deletePresenter } from "../../../../../utils/api";
 import { timeDelay } from "../../../../../utils/constants";
 
 interface PresenterProps {
   presenter: PresenterType;
   setUpdatePresenters: Function;
+  userLogin: UserLogin;
 }
 
-const Presenter = ({ presenter, setUpdatePresenters }: PresenterProps) => {
+const Presenter = ({
+  presenter,
+  setUpdatePresenters,
+  userLogin,
+}: PresenterProps) => {
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
   const deleteItem = async (
@@ -74,13 +79,14 @@ const Presenter = ({ presenter, setUpdatePresenters }: PresenterProps) => {
         modifyValues={presenter}
         setUpdatePresenters={setUpdatePresenters}
       />
-      {presenter.role === RoleType.Employee && (
-        <div>
-          <Button onClick={(e) => deleteItem(e, presenter.id)}>
-            {deleteLoading ? <CircularProgress size={24} /> : "Delete"}
-          </Button>
-        </div>
-      )}
+      {userLogin?.role === RoleType.Boss &&
+        presenter.role === RoleType.Employee && (
+          <div>
+            <Button onClick={(e) => deleteItem(e, presenter.id)}>
+              {deleteLoading ? <CircularProgress size={24} /> : "Delete"}
+            </Button>
+          </div>
+        )}
     </PresenterWrapper>
   );
 };

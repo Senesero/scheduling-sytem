@@ -1,4 +1,24 @@
 {
+  "login": [
+    {
+      "id": 1,
+      "idEmployee": 1,
+      "user": "Boss",
+      "password": "Boss"
+    },
+    {
+      "id": 2,
+      "idEmployee": 2,
+      "user": "Presenter2",
+      "password": "Presenter2"
+    },
+    {
+      "id": 3,
+      "idEmployee": 3,
+      "user": "Presenter3",
+      "password": "Presenter3"
+    }
+  ],
   "employees": [
     {
       "id": 1,
@@ -10,7 +30,7 @@
       "name": "Presenter 2",
       "role": "Employee",
       "available": true,
-      "address": "Address 2...",
+      "address": "Address 22...",
       "phone": "622222222",
       "priority": "Morning",
       "askedFreeDay": false
@@ -104,6 +124,26 @@
       "phone": "665874526",
       "priority": "Any",
       "askedFreeDay": false
+    },
+    {
+      "id": 12,
+      "name": "Presenter 12",
+      "role": "Employee",
+      "available": true,
+      "address": "Adress 12",
+      "phone": "666545965",
+      "priority": "Any",
+      "askedFreeDay": false
+    },
+    {
+      "id": 13,
+      "name": "Presenter 13",
+      "role": "Employee",
+      "available": true,
+      "address": "Address 13",
+      "phone": "663322365",
+      "priority": "Any",
+      "askedFreeDay": true
     }
   ],
   "tables": [
@@ -155,7 +195,7 @@
       },
       {
         "id": 3,
-        "presenter": 7,
+        "presenter": 10,
         "turn": 2
       }
     ],
@@ -172,7 +212,7 @@
       },
       {
         "id": 3,
-        "presenter": 8,
+        "presenter": 11,
         "turn": 2
       }
     ],
@@ -189,17 +229,18 @@
       },
       {
         "id": 3,
-        "presenter": 10,
+        "presenter": 12,
         "turn": 2
       },
       {
         "id": 4,
-        "presenter": 11,
+        "presenter": 13,
         "turn": 3
       }
     ],
     "availableTables": [
-      "1"
+      "1",
+      "2"
     ]
   }
 }

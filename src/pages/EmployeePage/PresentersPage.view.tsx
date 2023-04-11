@@ -2,16 +2,18 @@ import React from "react";
 import { PresentersWrapper } from "./PresentersPage.styles";
 import PresentersList from "./components/PresentersList/PresentersList.view";
 import FormPresenterModal from "./components/FormPresenterModal/FormPresenterModal";
-import { PresenterType } from "../../utils/types";
+import { PresenterType, RoleType, UserLogin } from "../../utils/types";
 
 interface PresentersPageProps {
   presenters: PresenterType[];
   setUpdatePresenters: Function;
+  userLogin: UserLogin;
 }
 
 const PresentersPage = ({
   presenters,
   setUpdatePresenters,
+  userLogin,
 }: PresentersPageProps) => {
   return (
     <PresentersWrapper>
@@ -19,8 +21,11 @@ const PresentersPage = ({
       <PresentersList
         presenters={presenters}
         setUpdatePresenters={setUpdatePresenters}
+        userLogin={userLogin}
       />
-      <FormPresenterModal setUpdatePresenters={setUpdatePresenters} />
+      {userLogin?.role === RoleType.Boss && (
+        <FormPresenterModal setUpdatePresenters={setUpdatePresenters} />
+      )}
     </PresentersWrapper>
   );
 };

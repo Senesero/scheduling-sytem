@@ -1,3 +1,16 @@
+export type UserType = {
+  id?: number;
+  user: string;
+  password: string;
+  idEmployee?: number;
+};
+
+export type UserLogin = {
+  id: number;
+  user: string;
+  role: string;
+};
+
 export enum Shift {
   Any = "Any",
   Morning = "Morning",

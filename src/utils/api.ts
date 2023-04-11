@@ -1,5 +1,29 @@
 import { BASE_URL } from "./constants";
-import { PresenterType, ScheduleType, TableType } from "./types";
+import { setItem } from "./localStorage";
+import { PresenterType, ScheduleType, TableType, UserType } from "./types";
+
+export const login = async (userLogin: UserType, presenters: PresenterType[]) => {
+  const usersData = await fetch(`${BASE_URL}/login`)
+    .then((response) => response.json())
+    .catch((error) => console.log(error));
+
+  let login: boolean = false;
+  let presenterLogin = {};
+  usersData?.forEach((userData: UserType) => {
+        if (userData.user === userLogin.user && userData.password === userLogin.password) {
+          login = true;
+          const presenter = presenters.find(presenter => presenter.id === userData.idEmployee)
+          presenterLogin = {
+            id: presenter?.id,
+            user: presenter?.name,
+            role: presenter?.role
+          }
+          setItem("session", { ...presenterLogin })
+        }
+  })
+  
+  return login;
+};
 
 export const getPresenters = async () => {
   const data = await fetch(`${BASE_URL}/employees`)
