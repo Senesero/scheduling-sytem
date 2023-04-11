@@ -16,8 +16,8 @@ const LoginForm = ({ presenters, setCheckLogin }: LoginFormProps) => {
   const [errorLogin, setErrorLogin] = useState<string>("");
 
   const initialValues: UserType = {
-    user: "Boss",
-    password: "Boss",
+    user: "",
+    password: "",
   };
 
   return (
@@ -57,17 +57,9 @@ const LoginForm = ({ presenters, setCheckLogin }: LoginFormProps) => {
           }, 1000);
         }}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-        }) => {
+        {({ values, handleChange, handleBlur, handleSubmit }) => {
           return (
-            // {({ values, handleChange, handleBlur }) => (
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} data-testid="login-form">
               <div>
                 <FormControl fullWidth sx={{ m: 1 }}>
                   <TextField
@@ -80,7 +72,7 @@ const LoginForm = ({ presenters, setCheckLogin }: LoginFormProps) => {
                     onBlur={handleBlur}
                   />
                 </FormControl>
-                <ErrorWrapper>
+                <ErrorWrapper role="userError">
                   <ErrorMessage name="user" component="div" />
                 </ErrorWrapper>
               </div>
@@ -98,7 +90,7 @@ const LoginForm = ({ presenters, setCheckLogin }: LoginFormProps) => {
                     onBlur={handleBlur}
                   />
                 </FormControl>
-                <ErrorWrapper>
+                <ErrorWrapper role="passwordError">
                   <ErrorMessage name="password" component="div" />
                 </ErrorWrapper>
               </div>

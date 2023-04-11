@@ -11,7 +11,7 @@ interface HomePageProps {
 
 const HomePage = ({ presenters, setCheckLogin, userLogin }: HomePageProps) => {
   return (
-    <HomeWrapper>
+    <HomeWrapper data-testid="home-page">
       <div>
         <h2>
           {userLogin?.user

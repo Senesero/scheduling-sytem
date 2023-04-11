@@ -1,46 +1,86 @@
-# Getting Started with Create React App
+# Required requirements
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Task
 
-## Available Scripts
+You are required to implement an application using React Framework that implements the following:
 
-In the project directory, you can run:
+- List, create, view, edit and delete game presenters
+- List, create, view, edit and delete tables
+- Use proper validation techniques when creating and editing data
+- Mock the backend API and set up mock data accordingly
+- Navigate between screens
+- Compute the rotation schedule of game presenters for a single day (3 shifts) and display it on screen using components of your choice.
+
+## Additional Challenges
+
+You can boost your solution by implementing the following optional challenges:
+
+- Typescript Write your code using typescript.
+- Security Implement a login screen such that only authenticated users can make use of the application. In addition, implement permission based access for certain screens, components and/or actions.
+- Configurable List View Allow users to switch between 2 visualization techniques in order to list the game presenters on screen.
+- Loading Component Display some sort of loading/skeleton components when loading data.
+- Docker Create a Dockerfile (and an optional docker compose file) and provide instructions on how to build and run the application.
+
+#Run the app
+
+### `npm install`
+
+Install project dependencies.
+
+### `npm run server`
+
+Will start a server. The server data is in the file “db.json”
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+In another console, execute the "npm start" command to launch the application, which will open at [http://localhost:3000](http://localhost:3000)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# Explanation design and solution
 
-### `npm test`
+For the implemented solution we have 3 main scenarios:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Employees not logged in
 
-### `npm run build`
+In this scenario, only the "Home" screen is available, in which a form is displayed for the employee to log in.
+All paths show “Page not found” except the root path.
+The form has validations to check if the fields have been filled in, if not, it shows a "Field required" message.
+After entering a correct username and password, it will take us to one of the other two scenarios.
+A button to register an employee has not been enabled. It has been suggested that bosses are added by another method. And to register a presenter, a boss has to register it.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Presenters
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+To enter this mode we can enter “Presenter2” in user and password, logging in as presenter.
+When a user has logged in, a "Close session" button appears at the top right, which will cause a logout.
+If after logging out we are not in "Home", the application will take us to "Home" to be able to log in again and not stay in a "Page not found" path.
+The presenter has the following screens:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Home: where you are welcomed
+- Presenters: where the data of the logged-in presenter will be displayed and with a "Modify Presenter" button which, if pressed, takes us to a form to modify the data of the logged-in user.
+- Schedule: Shows the schedule of the day and highlighted in green the shift that has to work.
 
-### `npm run eject`
+## Boss
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+To enter this mode we can enter "Boss" in username and password, logging in as boss.
+The boss has all of the options described previously in the presenter plus the following:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Presenters: The boss can see, modify and delete the data of all registered presenters.
+- Tables: It has a view to be able to see, modify or delete game tables
+- Schedule: It has a form to select the preferences of the employees, the available tables and the duration of each shift.
+  After configuring the form, the boss will press "Calculate turns" which will calculate the turns for each presenter at each table. There are several validations to verify, for example, that not all employees have the same priority selected, or that there are enough presenters to cover all the selected tables in all shifts.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# Limitations and improvements
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Limitations
+
+I find the main limitation in the "Schedule" screen, since the design is fine for few users but if we had many employees it would be a bad distribution of the data and the screen design would have to be rethought.
+
+## Improvements
+
+- The main improvement would be to add Redux. The reason is that "presenters" and "tables" are propagated from the App component to practically all the components of the application. Using the Redux function useSelector in each of the components would save us a lot of propagation of these objects.
+- Add more unit tests, since I haven't had time to configure many.
+- Configure that there may be several bosses and that they cannot modify the data between them
+- Give a nice design to the “Page not found” screen
 
 ## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).

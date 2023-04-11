@@ -23,7 +23,9 @@
     {
       "id": 1,
       "name": "Boss 1",
-      "role": "Boss"
+      "role": "Boss",
+      "address": "Address Boss...",
+      "phone": "687965236"
     },
     {
       "id": 2,

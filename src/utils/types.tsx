@@ -29,7 +29,7 @@ export type PresenterType = {
   role: RoleType;
   available?: boolean;
   address?: string;
-  phone?: "";
+  phone?: string;
   priority: Shift;
   askedFreeDay?: boolean;
 };

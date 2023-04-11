@@ -19,14 +19,12 @@ const PresentersList = ({
       presenters.map((presenter, index) => {
         if (userLogin?.role === RoleType.Boss) {
           return (
-            presenter.role === RoleType.Employee && (
-              <Presenter
-                key={index}
-                presenter={presenter}
-                setUpdatePresenters={setUpdatePresenters}
-                userLogin={userLogin}
-              />
-            )
+            <Presenter
+              key={index}
+              presenter={presenter}
+              setUpdatePresenters={setUpdatePresenters}
+              userLogin={userLogin}
+            />
           );
         } else {
           return (

@@ -21,7 +21,7 @@ const Menu = ({ setCheckLogin, userLogin }: MenuProps) => {
 
   return (
     <>
-      <Nav>
+      <Nav data-testid="menu">
         <Ul>
           <Li>
             <A to="/">Home</A>

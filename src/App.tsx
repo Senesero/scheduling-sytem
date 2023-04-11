@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage/HomePage.view";
 import PresentersPage from "./pages/EmployeePage/PresentersPage.view";
 import TablesPage from "./pages/TablesPage/TablesPage.view";
 import SchedulePage from "./pages/SchedulePage/SchedulePage.view";
-import Menu from "./pages/Menu/Menu";
+import Menu from "./pages/Menu/Menu.view";
 import { PresenterType, RoleType, TableType, UserLogin } from "./utils/types";
 import { getTables, getPresenters } from "./utils/api";
 import { getItem } from "./utils/localStorage";
